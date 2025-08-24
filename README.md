@@ -1,11 +1,11 @@
 <!-- BANNER -->
 <p align="center">
-  <img src="./public/momentum.jpg" alt="Momentum Banner" width="200px" />
+  <img src="./public/douauth.png" alt="douauth Banner" width="200px" />
 </p>
 
 <h1 align="center">🌿 Momentum Clone</h1>
 <p align="center">
-  <b>Next.js와 Tailwind CSS를 이용한 Momentum 클론코딩 프로젝트</b>
+  <b>Next.js와 Prisma DB를 이용한 카카오, 네이버 SNS로그인 구현 프로젝트</b>
 </p>
 
 <!-- BADGES -->
