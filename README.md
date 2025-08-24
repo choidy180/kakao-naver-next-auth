@@ -1,36 +1,250 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+<!-- BANNER -->
+<p align="center">
+  <img src="./public/momentum.jpg" alt="Momentum Banner" width="200px" />
+</p>
 
-## Getting Started
+<h1 align="center">🌿 Momentum Clone</h1>
+<p align="center">
+  <b>Next.js와 Tailwind CSS를 이용한 Momentum 클론코딩 프로젝트</b>
+</p>
 
-First, run the development server:
+<!-- BADGES -->
+<p align="center">
+  <img src="https://img.shields.io/badge/Next.js-000000?style=flat-square&logo=Next.js&logoColor=white"/>
+  <img src="https://img.shields.io/badge/React-61DAFB?style=flat-square&logo=React&logoColor=white"/>
+  <img src="https://img.shields.io/badge/TypeScript-3178C6?style=flat-square&logo=TypeScript&logoColor=white"/>
+  <img src="https://img.shields.io/badge/Tailwind%20CSS-06B6D4?style=flat-square&logo=tailwindcss&logoColor=white"/>
+  <img src="https://img.shields.io/badge/Recoil-3578E5?style=flat-square&logo=recoil&logoColor=white"/>
+  <img src="https://img.shields.io/badge/Firebase-FFCA28?style=flat-square&logo=firebase&logoColor=white"/>
+</p>
 
+---
+
+## 🌈 주요 기능
+- ⏰ 화면 중앙에 **실시간 시계** 표시  
+- 📝 **오늘의 할 일(To-do)** 입력 및 저장 기능  
+- 🖼️ **배경 랜덤 이미지** (예: Unsplash API 연동)  
+- 💡 **오늘의 명언** 랜덤 표시  
+- 💾 **로컬 스토리지, FireBase DB 저장**으로 새로고침 후에도 데이터 유지  
+
+---
+
+## 🛠 기술 스택
+<p align="center">
+  <img src="https://img.shields.io/badge/Next.js-000000?style=flat-square&logo=Next.js&logoColor=white"/>
+  <img src="https://img.shields.io/badge/React-61DAFB?style=flat-square&logo=React&logoColor=white"/>
+  <img src="https://img.shields.io/badge/TypeScript-3178C6?style=flat-square&logo=TypeScript&logoColor=white"/>
+  <img src="https://img.shields.io/badge/Tailwind%20CSS-06B6D4?style=flat-square&logo=tailwindcss&logoColor=white"/>
+  <img src="https://img.shields.io/badge/Recoil-3578E5?style=flat-square&logo=recoil&logoColor=white"/>
+  <img src="https://img.shields.io/badge/Firebase-FFCA28?style=flat-square&logo=firebase&logoColor=white"/>
+</p>
+
+---
+
+## 📦 설치 및 실행
 ```bash
+# 1) 레포지토리 복제
+git clone https://github.com/choidy180/next-v13-moment
+cd momentum-clone
+
+# 2) 의존성 설치
+npm install
+
+# 3) 개발 서버 실행
 npm run dev
-# or
-yarn dev
+# 브라우저에서 http://localhost:3000 접속
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 📡 Example Code (Theme Navigation)
+```bash
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
+import styled from "styled-components";
+import { BsSun, BsMoon } from 'react-icons/bs';
+import { useRecoilState, useSetRecoilState } from 'recoil';
+import { isThemeAtom } from '../recoil/theme'
+import { BsPalette } from 'react-icons/bs'
+import { useState } from "react";
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+const ThemeNavigation = ({changeTheme}:any) => {
+    const useSetTheme = useSetRecoilState(isThemeAtom);
+    const themeState= useRecoilState(isThemeAtom);
+    const [view, setView] = useState(false);
+    const useColorSet = (value:string) => {
+        useSetTheme(value);
+        setView(false);
+        return;
+    }
+    return (
+        <Container className={view ? '' : 'none'}>
+            <Title>테마 설정</Title>
+            <svg xmlns="http://www.w3.org/2000/svg" onClick={()=> setView(false)} fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="cancel">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+            <LightDarkTheme color={themeState[0]}>
+                <div onClick={()=>changeTheme(true)}>
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="sun">
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M12 3v2.25m6.364.386l-1.591 1.591M21 12h-2.25m-.386 6.364l-1.591-1.591M12 18.75V21m-4.773-4.227l-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M15.75 12a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0z" />
+                    </svg>
+                </div>
+                <div onClick={()=>changeTheme(false)}>
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="moon">
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M21.752 15.002A9.718 9.718 0 0118 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 003 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 009.002-5.998z" />
+                    </svg>
+                </div>
+            </LightDarkTheme>
+            <PointTheme>
+                <h2 onClick={()=>console.log(themeState[0])}>Color Ficker</h2>
+                <div className="container">
+                    <ColorContent onClick={()=>useColorSet('#f53b57')} color={'#f53b57'}/>
+                    <ColorContent onClick={()=>useColorSet('#3c40c6')} color={'#3c40c6'}/>
+                    <ColorContent onClick={()=>useColorSet('#0be881')} color={'#0be881'}/>
+                </div>
+            </PointTheme>
+            <ButtonBox color={themeState[0]} className={view ? 'none' : ''} onClick={()=> setView((e) => !e)}>
+                <button>
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M4.098 19.902a3.75 3.75 0 005.304 0l6.401-6.402M6.75 21A3.75 3.75 0 013 17.25V4.125C3 3.504 3.504 3 4.125 3h5.25c.621 0 1.125.504 1.125 1.125v4.072M6.75 21a3.75 3.75 0 003.75-3.75V8.197M6.75 21h13.125c.621 0 1.125-.504 1.125-1.125v-5.25c0-.621-.504-1.125-1.125-1.125h-4.072M10.5 8.197l2.88-2.88c.438-.439 1.15-.439 1.59 0l3.712 3.713c.44.44.44 1.152 0 1.59l-2.879 2.88M6.75 17.25h.008v.008H6.75v-.008z" />
+                </svg>
+                </button>
+            </ButtonBox>
+        </Container>
+    )
+}
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+const Container = styled.div`
+    width: 280px;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    right: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    background-color: ${props => props.theme.bgColor};
+    box-shadow: ${props => props.theme.shadowColor} 0px 2px 5px -1px, ${props => props.theme.shadowColor} 0px 1px 3px -1px;
+    color: ${props => props.theme.textColor};
+    transition: all .15s ease-in-out;
+    padding: 14px;
+    .cancel{
+        position: absolute;
+        top: 12px;
+        right: 12px;
+        width: 28px;
+        height: 28px;
+        cursor: pointer;
+    }
+    &.none{
+        right: -286px;
+    }
+`
+const Title = styled.p`
+    width: 100%;
+    font-size: 19px;
+    pointer-events: none;
+    font-family: 'Pretendard-Regular';
+    font-weight: 700;
+`
+const LightDarkTheme = styled.div`
+    width: 100%;
+    margin-top: 10vh;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 14px;
+    div {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        height: 64px;
+        border-radius: 8px;
+        box-shadow: ${props => props.color} 0px 0px 0px 2px;
+        cursor: pointer;
+        transition: all .15s ease-in-out;
+        svg {
+            width: 28px;
+            height: 28px;
+        }
+        .sun {
+            width: 32px;
+            height: 32px;
+        }
+    }
+`
+const PointTheme = styled.div`
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    margin-top: 24px;
+    div.container {
+        width: 255px;
+        height: 85px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-top: 24px;
+        cursor: pointer;
+    }
+    h2{
+        color: ${props => props.theme.textColor};
+        font-size: 20px;
+        font-weight: 500;
+    }
+`
 
-## Learn More
+const ColorContent = styled.div`
+    width: 100%;
+    height: 100%;
+    background-color: ${props => props.color};
+`
 
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+const ButtonBox = styled.div`
+    width: 44px;
+    height: 42px;
+    position: absolute;
+    left: -50px;
+    top: 50%;
+    transform: translateY(-50%);
+    border-top-left-radius: 8px;
+    border-bottom-left-radius: 8px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: ${props => props.theme.bgColor};
+    cursor: pointer;
+    &.none{
+        display: none;
+    }
+    &:hover{
+        svg{
+            color: ${props => props.color};
+        }
+    }
+    button{
+        &::after{
+            content: '';
+            position: absolute;
+            width: 6px;
+            height: 6px;
+            top: -4px;
+            right: -6px;
+            border-radius: 50%;
+            background-color: ${props => props.color};
+        }
+    }
+    svg{
+        left: -2px;
+        width: 24px;
+        height: 24px;
+        color: ${props => props.theme.textColor};
+        transition: all .15s ease-in-out;
+        &:hover{
+            color: ${props => props.color};
+        }
+    }
+`
+```
