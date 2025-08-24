@@ -1,6 +1,6 @@
 <!-- BANNER -->
 <p align="center">
-  <img src="./public/douauth.png" alt="douauth Banner" width="200px" />
+  <img src="./public/douauth.jpg" alt="douauth Banner" width="200px" />
 </p>
 
 <h1 align="center">✅ DouAuth</h1>
