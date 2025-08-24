@@ -21,11 +21,7 @@
 ---
 
 ## 🌈 주요 기능
-- ⏰ 화면 중앙에 **실시간 시계** 표시  
-- 📝 **오늘의 할 일(To-do)** 입력 및 저장 기능  
-- 🖼️ **배경 랜덤 이미지** (예: Unsplash API 연동)  
-- 💡 **오늘의 명언** 랜덤 표시  
-- 💾 **로컬 스토리지, FireBase DB 저장**으로 새로고침 후에도 데이터 유지  
+- 📝 **카카오 & 네이버 로그인** 실시간으로 Prisma 웹 DB에 저장  
 
 ---
 
@@ -43,15 +39,15 @@
 ## 📦 설치 및 실행
 ```bash
 # 1) 레포지토리 복제
-git clone https://github.com/choidy180/next-v13-moment
-cd momentum-clone
+git clone https://github.com/choidy180/kakao-naver-next-auth
+cd kakao-naver-next-auth
 
 # 2) 의존성 설치
 npm install
 
 # 3) 개발 서버 실행
 npm run dev
-# 브라우저에서 http://localhost:3000 접속
+# 브라우저에서 http://localhost:3000 & http://127.0.0.1:3000 접
 ```
 
 ## 📡 Example Code (Theme Navigation)
