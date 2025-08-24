@@ -50,196 +50,291 @@ npm run dev
 # 브라우저에서 http://localhost:3000 & http://127.0.0.1:3000 접
 ```
 
-## 📡 Example Code (Theme Navigation)
+## 📡 Example Code (Header Component)
 ```bash
 
-import styled from "styled-components";
-import { BsSun, BsMoon } from 'react-icons/bs';
-import { useRecoilState, useSetRecoilState } from 'recoil';
-import { isThemeAtom } from '../recoil/theme'
-import { BsPalette } from 'react-icons/bs'
-import { useState } from "react";
-
-
-const ThemeNavigation = ({changeTheme}:any) => {
-    const useSetTheme = useSetRecoilState(isThemeAtom);
-    const themeState= useRecoilState(isThemeAtom);
-    const [view, setView] = useState(false);
-    const useColorSet = (value:string) => {
-        useSetTheme(value);
-        setView(false);
-        return;
-    }
+import {
+    Box,
+    Flex,
+    Text,
+    IconButton,
+    Stack,
+    Collapse,
+    Icon,
+    Link,
+    Popover,
+    PopoverTrigger,
+    PopoverContent,
+    useColorModeValue,
+    useBreakpointValue,
+    useDisclosure,
+  } from "@chakra-ui/react";
+  import {
+    HamburgerIcon,
+    CloseIcon,
+    ChevronDownIcon,
+    ChevronRightIcon,
+  } from "@chakra-ui/icons";
+  
+  import { DarkModeSwitch } from "./DarkModeSwitch";
+  import { Children } from "react";
+  
+  export default function WithSubnavigation() {
+    const { isOpen, onToggle } = useDisclosure();
+    const myBgColor = "#F9E000";
     return (
-        <Container className={view ? '' : 'none'}>
-            <Title>테마 설정</Title>
-            <svg xmlns="http://www.w3.org/2000/svg" onClick={()=> setView(false)} fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="cancel">
-                <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
-            </svg>
-            <LightDarkTheme color={themeState[0]}>
-                <div onClick={()=>changeTheme(true)}>
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="sun">
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M12 3v2.25m6.364.386l-1.591 1.591M21 12h-2.25m-.386 6.364l-1.591-1.591M12 18.75V21m-4.773-4.227l-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M15.75 12a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0z" />
-                    </svg>
-                </div>
-                <div onClick={()=>changeTheme(false)}>
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="moon">
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M21.752 15.002A9.718 9.718 0 0118 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 003 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 009.002-5.998z" />
-                    </svg>
-                </div>
-            </LightDarkTheme>
-            <PointTheme>
-                <h2 onClick={()=>console.log(themeState[0])}>Color Ficker</h2>
-                <div className="container">
-                    <ColorContent onClick={()=>useColorSet('#f53b57')} color={'#f53b57'}/>
-                    <ColorContent onClick={()=>useColorSet('#3c40c6')} color={'#3c40c6'}/>
-                    <ColorContent onClick={()=>useColorSet('#0be881')} color={'#0be881'}/>
-                </div>
-            </PointTheme>
-            <ButtonBox color={themeState[0]} className={view ? 'none' : ''} onClick={()=> setView((e) => !e)}>
-                <button>
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M4.098 19.902a3.75 3.75 0 005.304 0l6.401-6.402M6.75 21A3.75 3.75 0 013 17.25V4.125C3 3.504 3.504 3 4.125 3h5.25c.621 0 1.125.504 1.125 1.125v4.072M6.75 21a3.75 3.75 0 003.75-3.75V8.197M6.75 21h13.125c.621 0 1.125-.504 1.125-1.125v-5.25c0-.621-.504-1.125-1.125-1.125h-4.072M10.5 8.197l2.88-2.88c.438-.439 1.15-.439 1.59 0l3.712 3.713c.44.44.44 1.152 0 1.59l-2.879 2.88M6.75 17.25h.008v.008H6.75v-.008z" />
-                </svg>
-                </button>
-            </ButtonBox>
-        </Container>
-    )
-}
-
-const Container = styled.div`
-    width: 280px;
-    height: 100vh;
-    position: fixed;
-    top: 0;
-    right: 0;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: center;
-    background-color: ${props => props.theme.bgColor};
-    box-shadow: ${props => props.theme.shadowColor} 0px 2px 5px -1px, ${props => props.theme.shadowColor} 0px 1px 3px -1px;
-    color: ${props => props.theme.textColor};
-    transition: all .15s ease-in-out;
-    padding: 14px;
-    .cancel{
-        position: absolute;
-        top: 12px;
-        right: 12px;
-        width: 28px;
-        height: 28px;
-        cursor: pointer;
-    }
-    &.none{
-        right: -286px;
-    }
-`
-const Title = styled.p`
-    width: 100%;
-    font-size: 19px;
-    pointer-events: none;
-    font-family: 'Pretendard-Regular';
-    font-weight: 700;
-`
-const LightDarkTheme = styled.div`
-    width: 100%;
-    margin-top: 10vh;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 14px;
-    div {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        width: 100%;
-        height: 64px;
-        border-radius: 8px;
-        box-shadow: ${props => props.color} 0px 0px 0px 2px;
-        cursor: pointer;
-        transition: all .15s ease-in-out;
-        svg {
-            width: 28px;
-            height: 28px;
-        }
-        .sun {
-            width: 32px;
-            height: 32px;
-        }
-    }
-`
-const PointTheme = styled.div`
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: flex-start;
-    margin-top: 24px;
-    div.container {
-        width: 255px;
-        height: 85px;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-top: 24px;
-        cursor: pointer;
-    }
-    h2{
-        color: ${props => props.theme.textColor};
-        font-size: 20px;
-        font-weight: 500;
-    }
-`
-
-const ColorContent = styled.div`
-    width: 100%;
-    height: 100%;
-    background-color: ${props => props.color};
-`
-
-const ButtonBox = styled.div`
-    width: 44px;
-    height: 42px;
-    position: absolute;
-    left: -50px;
-    top: 50%;
-    transform: translateY(-50%);
-    border-top-left-radius: 8px;
-    border-bottom-left-radius: 8px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: ${props => props.theme.bgColor};
-    cursor: pointer;
-    &.none{
-        display: none;
-    }
-    &:hover{
-        svg{
-            color: ${props => props.color};
-        }
-    }
-    button{
-        &::after{
-            content: '';
-            position: absolute;
-            width: 6px;
-            height: 6px;
-            top: -4px;
-            right: -6px;
-            border-radius: 50%;
-            background-color: ${props => props.color};
-        }
-    }
-    svg{
-        left: -2px;
-        width: 24px;
-        height: 24px;
-        color: ${props => props.theme.textColor};
-        transition: all .15s ease-in-out;
-        &:hover{
-            color: ${props => props.color};
-        }
-    }
-`
+      <Box>
+        <Flex
+          bg={useColorModeValue("white", "gray.800")}
+          color={useColorModeValue("gray.600", "white")}
+          minH={"60px"}
+          py={{ base: 4 }}
+          px={{ base: 4 }}
+          borderBottom={1}
+          borderStyle={"solid"}
+          borderColor={useColorModeValue("gray.200", "gray.900")}
+          align={"center"}
+          bgColor={myBgColor}
+        >
+          <Flex
+            flex={{ base: 1, md: "auto" }}
+            ml={{ base: -2 }}
+            display={{ base: "flex", md: "none" }}
+          >
+            <IconButton
+              onClick={onToggle}
+              icon={
+                isOpen ? (
+                  <CloseIcon color="gray.800" w={3} h={3} />
+                ) : (
+                  <HamburgerIcon color="gray.800" w={5} h={5} />
+                )
+              }
+              variant={"ghost"}
+              aria-label={"Toggle Navigation"}
+            />
+          </Flex>
+          <Flex flex={{ base: 1 }} justify={{ base: "center", md: "start" }}>
+            <Text
+              textAlign={useBreakpointValue({ base: "center", md: "left" })}
+              fontFamily={"heading"}
+              color="gray.800"
+              fontSize={"2xl"}
+              fontWeight={"bold"}
+            >
+              <Link style={{ textDecoration: "none" }} href="/">
+                홈
+              </Link>
+            </Text>
+  
+            <Flex display={{ base: "none", md: "flex" }} ml={10}>
+              <DesktopNav />
+            </Flex>
+          </Flex>
+  
+          <Stack
+            flex={{ base: 1, md: 0 }}
+            justify={"flex-end"}
+            direction={"row"}
+            spacing={6}
+          >
+            <DarkModeSwitch />
+          </Stack>
+        </Flex>
+  
+        <Collapse in={isOpen} animateOpacity>
+          <MobileNav />
+        </Collapse>
+      </Box>
+    );
+  }
+  
+  const DesktopNav = () => {
+    const linkColor = useColorModeValue("gray.800", "gray.800");
+    const linkHoverColor = useColorModeValue("gray.800", "gray.800");
+    const popoverContentBgColor = useColorModeValue("white", "gray.800");
+  
+    return (
+      <Stack direction={"row"} spacing={4} align="center">
+        {NAV_ITEMS.map((navItem) => (
+          <Box key={navItem.label}>
+            <Popover trigger={"hover"} placement={"bottom-start"}>
+              <PopoverTrigger>
+                <Link
+                  p={2}
+                  href={navItem.href ?? "#"}
+                  fontSize={"sm"}
+                  fontWeight={500}
+                  color={linkColor}
+                  _hover={{
+                    textDecoration: "none",
+                    color: linkHoverColor,
+                  }}
+                >
+                  {navItem.label}
+                </Link>
+              </PopoverTrigger>
+  
+              {navItem.children && (
+                <PopoverContent
+                  border={0}
+                  boxShadow={"xl"}
+                  bg={popoverContentBgColor}
+                  p={4}
+                  rounded={"xl"}
+                  minW={"sm"}
+                >
+                  <Stack>
+                    {navItem.children.map((child) => (
+                      <DesktopSubNav key={child.label} {...child} />
+                    ))}
+                  </Stack>
+                </PopoverContent>
+              )}
+            </Popover>
+          </Box>
+        ))}
+      </Stack>
+    );
+  };
+  
+  const DesktopSubNav = ({ label, href, subLabel }: NavProps) => {
+    return (
+      <Link
+        href={href}
+        role={"group"}
+        display={"block"}
+        p={2}
+        rounded={"md"}
+        _hover={{ bg: useColorModeValue("white", "gray.800") }}
+      >
+        <Stack direction={"row"} align={"center"}>
+          <Box>
+            <Text
+              transition={"all .3s ease"}
+              _groupHover={{ color: "blue.400" }}
+              fontWeight={500}
+            >
+              {label}
+            </Text>
+            <Text fontSize={"sm"}>{subLabel}</Text>
+          </Box>
+          <Flex
+            transition={"all .3s ease"}
+            transform={"translateX(-10px)"}
+            opacity={0}
+            _groupHover={{ opacity: "100%", transform: "translateX(0)" }}
+            justify={"flex-end"}
+            align={"center"}
+            flex={1}
+          >
+            <Icon color={"pink.400"} w={5} h={5} as={ChevronRightIcon} />
+          </Flex>
+        </Stack>
+      </Link>
+    );
+  };
+  
+  const MobileNav = () => {
+    return (
+      <Stack
+        bg={useColorModeValue("white", "gray.800")}
+        p={4}
+        display={{ md: "none" }}
+      >
+        {NAV_ITEMS.map((navItem) => (
+          <MobileNavItem key={navItem.label} {...navItem} />
+        ))}
+      </Stack>
+    );
+  };
+  
+  const MobileNavItem = ({ label, children, href }: NavProps) => {
+    const { isOpen, onToggle } = useDisclosure();
+  
+    return (
+      <Stack spacing={4} onClick={children && onToggle}>
+        <Flex
+          py={2}
+          as={Link}
+          href={href ?? "#"}
+          justify={"space-between"}
+          align={"center"}
+          _hover={{
+            textDecoration: "none",
+          }}
+        >
+          <Text
+            fontWeight={600}
+            color={useColorModeValue("gray.600", "gray.200")}
+          >
+            {label}
+          </Text>
+          {children && (
+            <Icon
+              as={ChevronDownIcon}
+              transition={"all .25s ease-in-out"}
+              transform={isOpen ? "rotate(180deg)" : ""}
+              w={6}
+              h={6}
+            />
+          )}
+        </Flex>
+  
+        <Collapse in={isOpen} animateOpacity style={{ marginTop: "0!important" }}>
+          <Stack
+            mt={2}
+            pl={4}
+            borderLeft={1}
+            borderStyle={"solid"}
+            borderColor={useColorModeValue("gray.200", "gray.700")}
+            align={"start"}
+          >
+            {children &&
+              children.map((child: NavProps) => (
+                <Link key={child.label} py={2} href={child.href}>
+                  {child.label}
+                </Link>
+              ))}
+          </Stack>
+        </Collapse>
+      </Stack>
+    );
+  };
+  
+  interface ChildrenProps {
+    label: string;
+    href: string;
+  }
+  
+  interface NavProps {
+    label: string;
+    href?: string;
+    subLabel?: string | null;
+    children?: Array<ChildrenProps>;
+  }
+  
+  const NAV_ITEMS = [
+    {
+      label: "홈",
+      href: "/",
+    },
+    {
+      label: "설명",
+      href: "/intro",
+    },
+    {
+      label: "API 살펴보기",
+      children: [
+        {
+          label: "카카오 로그인",
+          href: "/wiki/kakao",
+        },
+        {
+          label: "네이버 로그인",
+          href: "/wiki/naver",
+        },
+      ],
+    },
+  ];
 ```
